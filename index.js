@@ -1,11 +1,6 @@
-let firstCard = 10
-let secondCard = 10
-let cards= [
-    firstCard,
-    secondCard
-]
-let sum = firstCard + secondCard
-let isAlive = true
+let sum = 0
+let cards = []
+let isAlive = false
 let hasBlackjack = false
 let message = ""
 let messageEl = document.getElementById("message-el")
@@ -16,7 +11,38 @@ let messageEl = document.getElementById("message-el")
 let sumEl = document.querySelector("#sum-el")
 let cardsEl = document.querySelector(".cards-el")
 
+// Creating an object called player containing methods like name and chips
+let player = {
+    pname: "Ujj",
+    pchips: "145"
+}
+
+let playerEl = document.querySelector("#player-el")
+playerEl.textContent = player.pname + ": $" + player.pchips
+function getRandomCards()
+{
+    let num = Math.floor(Math.random() * 13) +1
+    if (num ===1)
+    {
+        return 11
+    }
+    else if (num >10)
+    {
+        return 10
+    }
+    else{
+        return num
+    }
+}
 function startGame(){
+    let firstCard = getRandomCards()
+    let secondCard = getRandomCards()
+    cards = [
+        firstCard,
+        secondCard
+    ]
+    isAlive = true
+    sum = firstCard + secondCard
     renderGame()
 }
 function renderGame(){
@@ -39,12 +65,14 @@ function renderGame(){
     
     messageEl.textContent = message
 }
-function newcards(){
-    let card = 4;
-    sum += card;
-    cards.push(card)
-    console.log(cards)
-    renderGame();
-    console.log("Drawing new cards!")
-}
-    
+
+
+    function newcards(){
+        if (isAlive && !hasBlackjack) {
+          let card = getRandomCards();
+          sum += card;
+          cards.push(card);
+          renderGame();
+        }
+    }
+
